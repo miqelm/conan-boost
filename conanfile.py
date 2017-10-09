@@ -166,6 +166,9 @@ class BoostConan(ConanFile):
             # The NOT windows check is necessary to exclude MinGW:
             flags.append("toolset=%s-%s" % (self.settings.compiler,
                                             str(self.settings.compiler.version)[0]))
+        elif self.settings.os == "Windows" and self.settings.compiler == "gcc":
+            # For MinGW and GCC we need to provide only compiler name
+            flags.append("toolset=%s" % (self.settings.compiler))
         elif str(self.settings.compiler) in ["clang", "gcc"]:
             # For GCC < v5 and Clang we need to provide the entire version string
             flags.append("toolset=%s-%s" % (self.settings.compiler,
@@ -251,10 +254,11 @@ class BoostConan(ConanFile):
 
         flags = []
         if self.settings.os == "Windows" and self.settings.compiler == "gcc":
-            command += " mingw"
+            command += " gcc"
             flags.append("--layout=system")
 
         try:
+            print("cd %s && %s" % (self.FOLDER_NAME, command))
             self.run("cd %s && %s" % (self.FOLDER_NAME, command))
         except:
             self.run("cd %s && type bootstrap.log" % self.FOLDER_NAME
