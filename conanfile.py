@@ -258,7 +258,6 @@ class BoostConan(ConanFile):
             flags.append("--layout=system")
 
         try:
-            print("cd %s && %s" % (self.FOLDER_NAME, command))
             self.run("cd %s && %s" % (self.FOLDER_NAME, command))
         except:
             self.run("cd %s && type bootstrap.log" % self.FOLDER_NAME
