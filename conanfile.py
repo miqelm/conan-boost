@@ -171,8 +171,7 @@ class BoostConan(ConanFile):
             flags.append("toolset=%s" % (self.settings.compiler))
         elif str(self.settings.compiler) in ["clang", "gcc"]:
             # For GCC < v5 and Clang we need to provide the entire version string
-            flags.append("toolset=%s-%s" % (self.settings.compiler,
-                                            str(self.settings.compiler.version)))
+            flags.append("toolset=%s" % (self.settings.compiler))
 
         flags.append("link=%s" % ("static" if not self.options.shared else "shared"))
         if self.settings.compiler == "Visual Studio" and self.settings.compiler.runtime:
